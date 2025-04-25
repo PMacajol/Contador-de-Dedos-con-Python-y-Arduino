@@ -1,0 +1,67 @@
+int segmentos[] = {2, 3, 4, 5, 6, 7, 8}; // a, b, c, d, e, f, g
+int dp = 9; // punto decimal
+
+byte numeros[10][7] = {
+  {0, 0, 0, 0, 0, 0, 1}, // 0
+  {1, 0, 0, 1, 1, 1, 1}, // 1
+  {0, 0, 1, 0, 0, 1, 0}, // 2
+  {0, 0, 0, 0, 1, 1, 0}, // 3
+  {1, 0, 0, 1, 1, 0, 0}, // 4
+  {0, 1, 0, 0, 1, 0, 0}, // 5
+  {0, 1, 0, 0, 0, 0, 0}, // 6
+  {0, 0, 0, 1, 1, 1, 1}, // 7
+  {0, 0, 0, 0, 0, 0, 0}, // 8
+  {0, 0, 0, 0, 1, 0, 0}  // 9
+};
+
+void setup() {
+  Serial.begin(9600);
+  for (int i = 0; i < 7; i++) {
+    pinMode(segmentos[i], OUTPUT);
+  }
+  pinMode(dp, OUTPUT);
+  digitalWrite(dp, HIGH); // Apagar el punto decimal
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    char recibido = Serial.read();
+    int num = recibido - '0'; // Convertir de char a número
+
+    if (num >= 0 && num <= 9) {
+      mostrarNumero(num);
+    }
+  }
+}
+
+void mostrarNumero(int num) {
+  for (int i = 0; i < 7; i++) {
+    digitalWrite(segmentos[i], numeros[num][i]);
+  }
+}
+
+
+
+
+Arduino UNO/Nano
++-----------+
+| Pin 2 --- R --- a (display)  |
+| Pin 3 --- R --- b (display)  |
+| Pin 4 --- R --- c (display)  |
+| Pin 5 --- R --- d (display)  |
+| Pin 6 --- R --- e (display)  |
+| Pin 7 --- R --- f (display)  |
+| Pin 8 --- R --- g (display)  |
+| Pin 9 --- R --- dp (opcional)|
+| 5V+ ------ común (anodo común)|
++-----------+
+
+
+
+Segmento a → Pin 2 (con resistencia).
+Segmento b → Pin 3 (con resistencia).
+Segmento c → Pin 4 (con resistencia).
+Segmento d → Pin 5 (con resistencia).
+Segmento e → Pin 6 (con resistencia).
+Segmento f → Pin 7 (con resistencia).
+Segmento g → Pin 8 (con resistencia).
